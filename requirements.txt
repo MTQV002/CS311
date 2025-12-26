@@ -1,0 +1,52 @@
+# ==================================================
+# RAG v3 - Production Dependencies (CONFLICT FREE)
+# ==================================================
+
+# --- Core Web Framework ---
+# FIX: Hạ xuống 0.110.3 để thỏa mãn yêu cầu <0.111.0 của Chainlit 1.1.304
+fastapi==0.110.3
+# --- Frontend ---
+# Chainlit 1.1.304 là bản ổn định, yêu cầu fastapi >=0.110.1 và <0.111.0
+chainlit==1.1.304
+
+# --- LlamaIndex Core ---
+# Giữ nguyên bản này để tương thích Reranker
+llama-index==0.10.36
+llama-index-core==0.10.36
+
+# --- LlamaIndex Integrations ---
+llama-index-llms-groq==0.4.1
+llama-index-llms-gemini==0.1.11
+llama-index-llms-openai==0.1.15
+llama-index-embeddings-huggingface==0.2.0
+llama-index-vector-stores-qdrant==0.2.8
+llama-index-retrievers-bm25==0.1.4
+llama-index-postprocessor-flag-embedding-reranker==0.1.3
+
+# --- CRITICAL FIX: HuggingFace Hub ---
+# BẮT BUỘC giữ 0.23.4 để tránh lỗi 'inference' extra bị mất ở bản mới
+huggingface-hub==0.23.4
+sse-starlette==0.3.0
+# --- Database & Search ---
+qdrant-client==1.9.1
+rank-bm25==0.2.2
+
+# --- Models & AI ---
+FlagEmbedding==1.2.10
+google-generativeai==0.5.2
+openai==1.23.6
+
+# --- Utilities & Processing ---
+pymupdf==1.24.2
+python-dotenv==1.0.1
+tqdm==4.66.2
+pydantic==2.7.1
+pydantic-settings==2.2.1
+httpx==0.27.0
+
+# --- Observability (Arize Phoenix) ---
+arize-phoenix==4.3.0
+openinference-instrumentation-llama-index==1.4.1
+opentelemetry-api==1.24.0
+opentelemetry-sdk==1.24.0
+opentelemetry-exporter-otlp==1.24.0
