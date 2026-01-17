@@ -19,8 +19,8 @@ class HybridRetriever(BaseRetriever):
         self,
         vector_retriever: BaseRetriever,
         bm25_retriever: BM25Retriever,
-        top_k: int = 20,
-        rrf_k: int = 60,
+        top_k: int = 15,
+        rrf_k: int = 30,
         **kwargs
     ):
         super().__init__(**kwargs)

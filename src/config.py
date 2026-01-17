@@ -27,23 +27,23 @@ class Settings(BaseSettings):
     
     # ===== Embedding Settings =====
     EMBEDDING_MODEL: str = "AITeamVN/Vietnamese_Embedding"
-    EMBEDDING_DIM: int = 768
+    EMBEDDING_DIM: int = 1024
     EMBEDDING_BATCH_SIZE: int = 32
      
     # ===== Reranker Settings =====
-    RERANKER_MODEL: str = "BAAI/bge-reranker-v2-m3"
+    RERANKER_MODEL: str = "BAAI/bge-reranker-v2-m3" #    "BAAI/bge-reranker-v2-m3" # thanhtantran/Vietnamese_Reranker
     RERANKER_TOP_N: int = 7        
     HUGGINGFACE_API_KEY: Optional[str] = None
     
     # ===== Qdrant Cloud Settings =====
     QDRANT_URL: str = "http://localhost:6333" 
     QDRANT_API_KEY: Optional[str] = None
-    QDRANT_COLLECTION: str = "legal_decrees_vL"
+    QDRANT_COLLECTION: str = "legal_decrees_LBV"
     
     # ===== Retrieval Settings =====
     VECTOR_TOP_K: int = 15          
     BM25_TOP_K: int = 15
-    HYBRID_TOP_K: int = 25          
+    HYBRID_TOP_K: int = 15          
     RRF_K: int = 30                 
     
     # ===== Memory Settings =====

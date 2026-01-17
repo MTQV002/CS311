@@ -35,18 +35,24 @@ class RouterResult:
 
 # Prompt phân loại intent
 ROUTER_PROMPT = """Bạn là bộ phân loại ý định. Xác định câu hỏi thuộc loại nào:
-1. **LAW**: Câu hỏi về pháp luật lao động Việt Nam
-2. **CHAT**: Chào hỏi, câu hỏi chung không liên quan đến luật
 
-QUAN TRỌNG: Nếu có lịch sử về pháp luật và câu hỏi hiện tại là follow-up, phân loại là LAW.
+**LAW** - Pháp luật lao động Việt Nam:
+- Hợp đồng, lương, thưởng, thai sản, nghỉ phép, sa thải, trợ cấp
+- BHXH, BHTN, BHYT, hưu trí, bảo hiểm
+- Luật Lao động, Nghị định, điều khoản, quy định
+- Ví dụ: "nghỉ thai sản bao lâu?", "trợ cấp thôi việc tính sao?", "BHXH là gì?"
+
+**CHAT** - Chào hỏi, câu hỏi chung không liên quan luật:
+- Ví dụ: "xin chào", "bạn là ai?", "cảm ơn", "tạm biệt"
+
+QUAN TRỌNG: Nếu lịch sử có pháp luật và câu hiện tại là follow-up → LAW
 
 Lịch sử: {chat_history}
 Câu hỏi: {query}
 
-Trả lời:
-INTENT: [LAW hoặc CHAT]
+INTENT: [LAW/CHAT]
 CONFIDENCE: [0.0-1.0]
-REASONING: [Giải thích ngắn]"""
+REASONING: [1 dòng]"""
 
 # Prompt rewrite câu hỏi follow-up thành câu độc lập
 CONDENSE_PROMPT = """Cho lịch sử và câu hỏi tiếp theo, viết lại thành câu hỏi độc lập.
@@ -84,11 +90,15 @@ CÁC ĐIỀU KHOẢN:
 {context_str}"""
 
 # Prompt cho CHAT intent (không cần RAG)
-CHAT_RESPONSE_PROMPT = """Bạn là trợ lý AI thân thiện về Pháp luật Lao động Việt Nam. Trả lời câu hỏi chung hoặc chào hỏi.
+CHAT_RESPONSE_PROMPT = """Bạn là trợ lý AI thân thiện chuyên về Pháp luật Lao động Việt Nam.
 
-Nếu hỏi về khả năng, giải thích bạn có thể trả lời về Bộ luật Lao động, Luật BHXH, hợp đồng lao động, tiền lương, v.v.
+NHIỆM VỤ: Trả lời chào hỏi, giới thiệu bản thân, hoặc hướng dẫn người dùng.
 
-Lịch sử: {chat_history}
+VÍ DỤ:
+- "Xin chào" → "Xin chào! Tôi là trợ lý AI về pháp luật lao động. Bạn cần hỏi gì?"
+- "Bạn là ai?" → "Tôi có thể giúp về Bộ luật Lao động, BHXH, hợp đồng, tiền lương..."
+
+Lịch sử: {chat_history} 
 Câu hỏi: {query}
 Trả lời:"""
 
@@ -220,7 +230,7 @@ class ChatEngineManager:
         self._ensure_initialized()
         self.memory.reset()
     
-    def _get_recent_history(self, max_turns: int = 3) -> str:
+    def _get_recent_history(self, max_turns: int = 5) -> str:
         """Lấy lịch sử gần đây để router có context"""
         try:
             messages = self.memory.get_all()
