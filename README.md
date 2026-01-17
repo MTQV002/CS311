@@ -11,6 +11,41 @@ Hệ thống Hỏi đáp Pháp luật Lao động Việt Nam sử dụng RAG (Re
 
 ---
 
+## 📁 Project Structure
+
+```
+RAG/
+├── data/
+│   ├── Law/                    # Các file luật gốc (.docx)
+│   ├── ND/                     # Các file nghị định (.docx)
+│   ├── script/
+│   │   └── processing.py       # Script parse văn bản pháp luật
+│   ├── legal_decrees.json      # Dataset sau xử lý (727 điều)
+│   └── ingest_to_qdrant.py     # Script ingest vào Qdrant
+│
+├── src/
+│   ├── config.py               # Cấu hình hệ thống
+│   ├── main.py                 # FastAPI entrypoint
+│   ├── api/
+│   │   ├── routes.py           # API endpoints
+│   │   └── schemas.py          # Pydantic models
+│   └── engine/
+│       ├── chat_engine.py      # RAG pipeline + SemanticRouter
+│       ├── retriever.py        # HybridRetriever (Vector + BM25)
+│       └── components.py       # LLM, Embedding, Reranker factories
+│
+├── frontend/
+│   └── app.py                  # Chainlit UI
+│
+├── eval/
+│   ├── test_case/              # 37 test cases
+│   └── eval_*.py               # Scripts đánh giá
+│
+└── rag_architecture.png        # Sơ đồ kiến trúc
+```
+
+---
+
 ## 🏗️ Architecture
 
 ![RAG Architecture](rag_architecture.png)
